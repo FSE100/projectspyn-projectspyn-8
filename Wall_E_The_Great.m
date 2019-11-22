@@ -33,11 +33,13 @@ while 1
         
         
     if (distance < d)
-        while (angle > (-90))
+        disp("fhfhfhfhfhfh")
+        while (angle > (-70))
             angle = brick.GyroAngle(2);
             brick.MoveMotor('D', -90);
             brick.MoveMotor('A', 90);
         end
+        angle = 0;
     end
 %         brick.MoveMotor('D', 90);
 %         brick.MoveMotor('A', 90);
