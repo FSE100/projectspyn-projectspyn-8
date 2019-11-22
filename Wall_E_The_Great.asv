@@ -8,8 +8,8 @@
 global key
 InitKeyboard();
 
-brick.SetColorMode(2, 3);
-brick.GyroCalibrate(2);
+brick.SetColorMode(2, 4);
+brick.GyroCalibrate(3);
 x = 0;
 d = 30;
 
@@ -18,12 +18,14 @@ d = 30;
 
 
 while 1
-    color = brick.ColorCode(3);
+    color = brick.ColorCode(4);
     angle = brick.GyroAngle(2);
     distance = brick.UltrasonicDist(1);
     disp(color)
     disp(distance)
     disp(angle)
+    pause(0.1);
+    pause(2.00);
     brick.MoveMotor('D', 90);
     brick.MoveMotor('A', 90);
 %     pause(1.00)
@@ -33,8 +35,7 @@ while 1
         
         
     if (distance < d)
-        while (angle > (-90))
-            angle = brick.GyroAngle(2);
+        while (angle  -90)
             brick.MoveMotor('D', -90);
             brick.MoveMotor('A', 90);
         end
@@ -58,6 +59,7 @@ while 1
 
     
  
+        pause(0.1)
         disp(color)
             
         
