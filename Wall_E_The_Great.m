@@ -12,35 +12,40 @@ brick.SetColorMode(2, 3);
 brick.GyroCalibrate(2);
 x = 0;
 d = 30;
-
+brick.MoveMotor('C', 0);
 
 
 
 
 while 1
     color = brick.ColorCode(3);
-    angle = brick.GyroAngle(2);
     distance = brick.UltrasonicDist(1);
+    touch = brick.TouchPressed(2);
     disp(color)
     disp(distance)
-    disp(angle)
+    
     brick.MoveMotor('D', 90);
     brick.MoveMotor('A', 90);
 %     pause(1.00)
 %     brick.MoveMotor('D', -90);
-%     brick.MoveMotor('A', 90);
-    
-        
-        
-    if (distance < d)
-        disp("fhfhfhfhfhfh")
-        while (angle > (-70))
-            angle = brick.GyroAngle(2);
-            brick.MoveMotor('D', -90);
-            brick.MoveMotor('A', 90);
-        end
-        angle = 0;
+%     brick.MoveMotor('A', 90);    
+    if (distance > 30)
+        brick.MoveMotor('D', 90);
+        brick.MoveMotor('A', -90);
+        pause(1.0);
+        brick.MoveMotor('D', 90);
+        brick.MoveMotor('A', 90);
+        pause(1.0)
     end
+    if (touch == 1)
+        brick.MoveMotor('D', -90);
+        brick.MoveMotor('A', -90);
+        pause(.5)
+        brick.MoveMotor('D', 90);
+        brick.MoveMotor('A', -90);
+        pause(2.0);
+    end
+    
 %         brick.MoveMotor('D', 90);
 %         brick.MoveMotor('A', 90);
 %     elseif(distance >= d)
@@ -55,7 +60,7 @@ while 1
     elseif (color == 5)
         brick.MoveMotor('D', 0);
         brick.MoveMotor('A', 0);
-        pause(4);
+        pause(3);
     end
 
     
@@ -69,39 +74,32 @@ while 1
     while x == 1   
         pause(0.1);
         disp(color)
-        disp(angle)
         switch key
             case 'uparrow'
                 disp('Up Arrow Pressed!');
-                disp(angle);
                 disp(distance);
                 brick.MoveMotor('C', -40);
             case 'downarrow'
                 disp('Down Arrow Pressed!');
-                disp(angle);
                 disp(distance);
-                brick.MoveMotor('C', 15);
+                brick.MoveMotor('C', 8);
             case 'w'
                 disp('Up Arrow Pressed!');
-                disp(angle);
                 disp(distance);
                 brick.MoveMotor('D', 90);
                 brick.MoveMotor('A', 90);
             case 's'
                 disp('Down Arrow Pressed!');
-                disp(angle);
                 disp(distance);
                 brick.MoveMotor('D', -90);
                 brick.MoveMotor('A', -90);
             case 'a'
                 disp('Left Arrow Pressed!');
-                disp(angle);
                 disp(distance);
                 brick.MoveMotor('D', -90);
                 brick.MoveMotor('A', 90);
             case 'd'
                 disp('Right Arrow Pressed!');
-                disp(angle);
                 disp(distance);
                 brick.MoveMotor('D', 90);
                 brick.MoveMotor('A', -90);
@@ -113,6 +111,7 @@ while 1
                 x = 0;
                 brick.MoveMotor('D', 0);
                 brick.MoveMotor('A', 0);
+                brick.MoveMotor('C', 0);
                 break;
         end
     end
