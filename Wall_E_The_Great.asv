@@ -9,9 +9,12 @@ global key
 InitKeyboard();
 
 brick.SetColorMode(2, 3);
-brick.GyroCalibrate(2);
+% brick.GyroCalibrate(2);
 x = 0;
 d = 30;
+forward = 0;
+close = 0;
+
 brick.MoveMotor('C', 0);
 
 
@@ -21,21 +24,75 @@ while 1
     color = brick.ColorCode(3);
     distance = brick.UltrasonicDist(1);
     touch = brick.TouchPressed(2);
-    disp(color)
+    %disp(color)
     disp(distance)
     
     brick.MoveMotor('D', 90);
     brick.MoveMotor('A', 90);
 %     pause(1.00)
 %     brick.MoveMotor('D', -90);
-%     brick.MoveMotor('A', 90);    
-        
+%     brick.MoveMotor('A', 90);  
+
     if (touch == 1)
+        brick.MoveMotor('D', 0);
+        brick.MoveMotor('A', 0);
         brick.MoveMotor('D', -90);
         brick.MoveMotor('A', -90);
-        pause(.5)
+        pause(.7)
+        brick.MoveMotor('D', 0);
+        brick.MoveMotor('A', 0);
         brick.MoveMotor('D', 90);
         brick.MoveMotor('A', -90);
+        pause(1.5);
+        forward = 0;
+        disp("180");
+    end
+    
+    if (forward == 2)
+        brick.MoveMotor('D', 0);
+        brick.MoveMotor('A', 0);
+        brick.MoveMotor('D', 90);
+        brick.MoveMotor('A', -90);
+        pause(0.9);
+        brick.MoveMotor('D', 0);
+        brick.MoveMotor('A', 0);
+        brick.MoveMotor('D', 90);
+        brick.MoveMotor('A', 90);
+        
+    end
+    
+    if (forward == 10)
+        forward = 0;
+    end
+    
+    if (distance < 10)
+        brick.MoveMotor('D', 0);
+        brick.MoveMotor('A', 0);
+        brick.MoveMotor('D', -90);
+        brick.MoveMotor('A', 90);
+        pause(0.15)
+        brick.MoveMotor('D', 0);
+        brick.MoveMotor('A', 0);
+        brick.MoveMotor('D', 90);
+        brick.MoveMotor('A', 90);
+        pause(0.35);
+%         brick.MoveMotor('D', 90);
+%         brick.MoveMotor('A', -90);
+%         pause(.20)
+    end
+    
+    if (distance > 45)
+        forward = forward + 1;
+        close = 0;
+    else
+        close = close + 1;
+%         disp("close")
+    end
+    
+    if (close == 4)
+        forward = 0;
+%         disp("close + 1111111")
+%         disp (foward + "ZER0")
     end
     
 %         brick.MoveMotor('D', 90);
@@ -52,20 +109,22 @@ while 1
     elseif (color == 5)
         brick.MoveMotor('D', 0);
         brick.MoveMotor('A', 0);
-        pause(3);
+        pause(4);
+        brick.MoveMotor('D', 90);
+        brick.MoveMotor('A', 90);
+        pause(1);
     end
 
     
  
-        disp(color)
+    %disp(color)
             
         
    
     
-    
     while x == 1   
         pause(0.1);
-        disp(color)
+        %disp(color)
         switch key
             case 'uparrow'
                 disp('Up Arrow Pressed!');
@@ -96,7 +155,6 @@ while 1
                 brick.MoveMotor('D', 90);
                 brick.MoveMotor('A', -90);
             case 0
-                disp('hiiii');
                 brick.MoveMotor('D', 0);
                 brick.MoveMotor('A', 0);
             case 'q'
@@ -108,7 +166,7 @@ while 1
         end
     end
     
-    disp("PPPPPPPPPPP")
+%     disp("FOWARD" + forward)
 end
 
 
